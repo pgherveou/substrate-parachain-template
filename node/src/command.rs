@@ -1,5 +1,3 @@
-use std::net::SocketAddr;
-
 use cumulus_primitives_core::ParaId;
 use frame_benchmarking_cli::{BenchmarkCmd, SUBSTRATE_REFERENCE_HARDWARE};
 use log::info;
@@ -10,16 +8,19 @@ use sc_cli::{
 };
 use sc_service::config::{BasePath, PrometheusConfig};
 use sp_runtime::traits::AccountIdConversion;
+use std::net::SocketAddr;
 
 use crate::{
 	chain_spec,
 	cli::{Cli, RelayChainCli, Subcommand},
+	service,
 	service::new_partial,
 };
 
-fn load_spec(id: &str) -> std::result::Result<Box<dyn ChainSpec>, String> {
+fn load_spec(id: &str) -> std::result::Result<Box<dyn sc_chain_spec::ChainSpec>, String> {
+	println!("Loading spec: {}", id);
 	Ok(match id {
-		"dev" => Box::new(chain_spec::development_config()),
+		"dev" => Box::new(chain_spec::dev::development_config().unwrap()),
 		"template-rococo" => Box::new(chain_spec::local_testnet_config()),
 		"" | "local" => Box::new(chain_spec::local_testnet_config()),
 		path => Box::new(chain_spec::ChainSpec::from_json_file(std::path::PathBuf::from(path))?),
@@ -222,6 +223,12 @@ pub fn run() -> Result<()> {
 			let collator_options = cli.run.collator_options();
 
 			runner.run_node_until_exit(|config| async move {
+				if config.chain_spec.name() == "Development" {
+					println!("Running Development");
+					return service::dev::new_full(config).map_err(sc_cli::Error::Service);
+				}
+
+
 				let hwbench = (!cli.no_hardware_benchmarks)
 					.then_some(config.database.path().map(|database_path| {
 						let _ = std::fs::create_dir_all(database_path);
@@ -392,4 +399,3 @@ impl CliConfiguration<Self> for RelayChainCli {
 		self.base.base.node_name()
 	}
 }
-

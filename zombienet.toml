@@ -30,11 +30,11 @@ chain = "local"
   name = "collator01"
   command = "./target/release/parachain-template-node"
   ws_port = 9910
-  args = ["--log=debug"]
+  # args = ["--log=debug"]
 
   [[parachains.collators]]
   name = "collator02"
   command = "./target/release/parachain-template-node"
   ws_port = 9911
-  args = ["--log=debug"]
+  # args = ["--log=debug"]
 

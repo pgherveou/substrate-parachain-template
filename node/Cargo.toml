@@ -18,7 +18,8 @@ jsonrpsee = { workspace = true }
 futures = { workspace = true }
 
 # Local
-parachain-template-runtime = { path = "../runtime" }
+parachain-template-runtime = { path = "../parachain-runtime" }
+node-template-runtime = { path = "../node-runtime" }
 
 # Substrate
 frame-benchmarking = { workspace = true }
@@ -52,6 +53,11 @@ sp-timestamp = { workspace = true }
 substrate-frame-rpc-system = { workspace = true }
 substrate-prometheus-endpoint = { workspace = true }
 try-runtime-cli = { workspace = true, optional = true }
+
+# extra for running solo-chain
+sp-consensus-grandpa = { workspace = true }
+sc-consensus-grandpa = { workspace = true }
+sc-consensus-aura = { workspace = true }
 
 # Polkadot
 polkadot-cli = { workspace = true }

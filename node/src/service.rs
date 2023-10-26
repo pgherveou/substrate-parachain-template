@@ -1,5 +1,7 @@
 //! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
+pub mod dev;
+
 // std
 use std::{sync::Arc, time::Duration};
 
