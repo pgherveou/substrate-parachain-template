@@ -1,5 +1,5 @@
 [package]
-name = "parachain-template-runtime"
+name = "contracts-parachain-runtime"
 version = "0.1.0"
 authors.workspace = true
 edition.workspace = true
@@ -65,14 +65,19 @@ cumulus-primitives-utility = { workspace = true }
 pallet-collator-selection = { workspace = true }
 parachain-info = { workspace = true }
 
+# extra deps for setting up pallet-contracts
+pallet-contracts = { workspace = true }
+pallet-utility = { workspace = true }
+pallet-contracts-primitives = { workspace = true }
+pallet-insecure-randomness-collective-flip = { workspace = true }
+pallet-assets = { workspace = true }
+
 [features]
 default = [
 	"std",
 ]
 std = [
 	"codec/std",
-	"log/std",
-	"scale-info/std",
 	"cumulus-pallet-aura-ext/std",
 	"cumulus-pallet-dmp-queue/std",
 	"cumulus-pallet-parachain-system/std",
@@ -85,10 +90,15 @@ std = [
 	"frame-support/std",
 	"frame-system-rpc-runtime-api/std",
 	"frame-system/std",
+	"log/std",
+	"pallet-assets/std",
 	"pallet-aura/std",
 	"pallet-authorship/std",
 	"pallet-balances/std",
 	"pallet-collator-selection/std",
+	"pallet-contracts-primitives/std",
+	"pallet-contracts/std",
+	"pallet-insecure-randomness-collective-flip/std",
 	"pallet-session/std",
 	"pallet-sudo/std",
 	"pallet-timestamp/std",
@@ -98,6 +108,7 @@ std = [
 	"parachain-info/std",
 	"polkadot-parachain-primitives/std",
 	"polkadot-runtime-common/std",
+	"scale-info/std",
 	"scale-info/std",
 	"sp-api/std",
 	"sp-block-builder/std",

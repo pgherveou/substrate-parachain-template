@@ -1,7 +1,13 @@
+use crate::{
+	chain_spec,
+	cli::{Cli, RelayChainCli, Subcommand},
+	service,
+	service::new_partial,
+};
+use contracts_parachain_runtime::Block;
 use cumulus_primitives_core::ParaId;
 use frame_benchmarking_cli::{BenchmarkCmd, SUBSTRATE_REFERENCE_HARDWARE};
 use log::info;
-use parachain_template_runtime::Block;
 use sc_cli::{
 	ChainSpec, CliConfiguration, DefaultConfigurationValues, ImportParams, KeystoreParams,
 	NetworkParams, Result, SharedParams, SubstrateCli,
@@ -9,26 +15,20 @@ use sc_cli::{
 use sc_service::config::{BasePath, PrometheusConfig};
 use sp_runtime::traits::AccountIdConversion;
 use std::net::SocketAddr;
-use crate::{
-	chain_spec,
-	cli::{Cli, RelayChainCli, Subcommand},
-	service,
-	service::new_partial,
-};
 
 fn load_spec(id: &str) -> std::result::Result<Box<dyn sc_chain_spec::ChainSpec>, String> {
 	println!("Loading spec: {}", id);
 	Ok(match id {
-		"dev" => Box::new(chain_spec::dev::development_config().unwrap()),
-		"template-rococo" => Box::new(chain_spec::local_testnet_config()),
-		"" | "local" => Box::new(chain_spec::local_testnet_config()),
+		"" | "dev" => Box::new(chain_spec::dev::development_config().unwrap()),
+		"local" => Box::new(chain_spec::dev::local_testnet_config()?),
+		"contracts-parachain-local" => Box::new(chain_spec::local_testnet_config()),
 		path => Box::new(chain_spec::ChainSpec::from_json_file(std::path::PathBuf::from(path))?),
 	})
 }
 
 impl SubstrateCli for Cli {
 	fn impl_name() -> String {
-		"Parachain Collator Template".into()
+		"Substrate Contracts Node".into()
 	}
 
 	fn impl_version() -> String {
@@ -36,13 +36,7 @@ impl SubstrateCli for Cli {
 	}
 
 	fn description() -> String {
-		format!(
-			"Parachain Collator Template\n\nThe command-line arguments provided first will be \
-		passed to the parachain node, while the arguments provided after -- will be passed \
-		to the relay chain node.\n\n\
-		{} <parachain-args> -- <relay-chain-args>",
-			Self::executable_name()
-		)
+		env!("CARGO_PKG_DESCRIPTION").into()
 	}
 
 	fn author() -> String {
@@ -50,7 +44,7 @@ impl SubstrateCli for Cli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/paritytech/polkadot-sdk/issues/new".into()
+		"https://github.com/paritytech/substrate-contracts-node/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {
@@ -64,7 +58,7 @@ impl SubstrateCli for Cli {
 
 impl SubstrateCli for RelayChainCli {
 	fn impl_name() -> String {
-		"Parachain Collator Template".into()
+		"Substrate Contracts Node".into()
 	}
 
 	fn impl_version() -> String {
@@ -72,13 +66,7 @@ impl SubstrateCli for RelayChainCli {
 	}
 
 	fn description() -> String {
-		format!(
-			"Parachain Collator Template\n\nThe command-line arguments provided first will be \
-		passed to the parachain node, while the arguments provided after -- will be passed \
-		to the relay chain node.\n\n\
-		{} <parachain-args> -- <relay-chain-args>",
-			Self::executable_name()
-		)
+		env!("CARGO_PKG_DESCRIPTION").into()
 	}
 
 	fn author() -> String {
@@ -86,7 +74,7 @@ impl SubstrateCli for RelayChainCli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/paritytech/polkadot-sdk/issues/new".into()
+		"https://github.com/paritytech/substrate-contracts-node/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {
@@ -111,7 +99,22 @@ macro_rules! construct_async_run {
 
 /// Parse command line arguments into service configuration.
 pub fn run() -> Result<()> {
-	let cli = Cli::from_args();
+	let mut cli = Cli::from_args();
+
+	if cli.run.base.shared_params.chain.is_none() {
+		log::debug!("forcing dev mode");
+		cli.run.base.shared_params.dev = true;
+	}
+
+	// remove block production noise and output contracts debug buffer by default
+	if cli.run.base.shared_params.log.is_empty() {
+		cli.run.base.shared_params.log = vec![
+			"runtime::contracts=debug".into(),
+			"sc_cli=info".into(),
+			"sc_rpc_server=info".into(),
+			"warn".into(),
+		];
+	}
 
 	match &cli.subcommand {
 		Some(Subcommand::BuildSpec(cmd)) => {
@@ -222,7 +225,7 @@ pub fn run() -> Result<()> {
 			let collator_options = cli.run.collator_options();
 
 			runner.run_node_until_exit(|config| async move {
-				if config.chain_spec.name() == "Development" {
+				if config.chain_spec.name() == "Development" { // TODO
 					return service::dev::new_full(config).map_err(sc_cli::Error::Service);
 				}
 

@@ -1,5 +1,5 @@
 [package]
-name = "parachain-template-node"
+name = "parachain-contracts-node"
 version = "0.1.0"
 authors = ["Anonymous"]
 description = "A new Cumulus FRAME-based Substrate Node, ready for hacking together a parachain."
@@ -18,8 +18,8 @@ jsonrpsee = { workspace = true }
 futures = { workspace = true }
 
 # Local
-parachain-template-runtime = { path = "../parachain-runtime" }
-node-template-runtime = { path = "../node-runtime" }
+contracts-parachain-runtime = { path = "../parachain-runtime" }
+contracts-node-runtime = { path = "../node-runtime" }
 
 # Substrate
 frame-benchmarking = { workspace = true }
@@ -83,10 +83,10 @@ substrate-build-script-utils = { workspace = true }
 [features]
 default = []
 runtime-benchmarks = [
-	"parachain-template-runtime/runtime-benchmarks",
+	"contracts-parachain-runtime/runtime-benchmarks",
 	"polkadot-cli/runtime-benchmarks",
 ]
 try-runtime = [
 	"try-runtime-cli/try-runtime",
-	"parachain-template-runtime/try-runtime"
+	"contracts-parachain-runtime/try-runtime"
 ]
