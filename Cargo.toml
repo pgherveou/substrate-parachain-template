@@ -97,6 +97,7 @@ pallet-contracts = { version = "23.0.0", default-features = false }
 pallet-contracts-primitives = { version = "27.0.0", default-features = false }
 pallet-insecure-randomness-collective-flip = { version = "12.0.0", default-features = false }
 pallet-assets = { version = "25.0.0", default-features = false }
+pallet-utility = { version = "24.0.0", default-features = false }
 
 # Polkadot
 pallet-xcm = { version = "3.0.0", default-features = false }

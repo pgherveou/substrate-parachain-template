@@ -9,7 +9,6 @@ use sc_cli::{
 use sc_service::config::{BasePath, PrometheusConfig};
 use sp_runtime::traits::AccountIdConversion;
 use std::net::SocketAddr;
-
 use crate::{
 	chain_spec,
 	cli::{Cli, RelayChainCli, Subcommand},
@@ -224,10 +223,8 @@ pub fn run() -> Result<()> {
 
 			runner.run_node_until_exit(|config| async move {
 				if config.chain_spec.name() == "Development" {
-					println!("Running Development");
-					return service::dev::new_full(config, cli.sealing).map_err(sc_cli::Error::Service);
+					return service::dev::new_full(config).map_err(sc_cli::Error::Service);
 				}
-
 
 				let hwbench = (!cli.no_hardware_benchmarks)
 					.then_some(config.database.path().map(|database_path| {

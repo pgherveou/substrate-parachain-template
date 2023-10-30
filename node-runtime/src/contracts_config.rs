@@ -42,8 +42,6 @@ parameter_types! {
 	pub const MaxDelegateDependencies: u32 = 32;
 }
 
-impl pallet_insecure_randomness_collective_flip::Config for Runtime {}
-
 impl pallet_contracts::Config for Runtime {
 	type Time = Timestamp;
 	type Randomness = RandomnessCollectiveFlip;
