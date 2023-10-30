@@ -85,3 +85,4 @@ impl pallet_contracts::Config for Runtime {
 	type Debug = ();
 	type Migrations = ();
 }
+
