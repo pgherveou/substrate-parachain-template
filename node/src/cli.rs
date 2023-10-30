@@ -80,9 +80,28 @@ pub struct Cli {
 	#[arg(long)]
 	pub no_hardware_benchmarks: bool,
 
+	/// The block sealing mode used when using development mode
+	#[arg(long, value_enum, ignore_case = true, default_value_t = Sealing::Instant)]
+	pub sealing: Sealing,
+
 	/// Relay chain arguments
 	#[arg(raw = true)]
 	pub relay_chain_args: Vec<String>,
+}
+
+/// Block authoring scheme to be used by the dev service.
+#[derive(clap::ValueEnum, Clone, Copy, Debug, PartialEq)]
+pub enum Sealing {
+	/// Author a block immediately upon receiving a transaction into the transaction pool
+	Instant,
+	/// Author blocks at a regular interval specified in milliseconds
+	Interval,
+}
+
+impl From<&str> for Sealing {
+	fn from(_value: &str) -> Self {
+		return Sealing::Instant
+	}
 }
 
 #[derive(Debug)]

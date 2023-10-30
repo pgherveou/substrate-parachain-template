@@ -225,7 +225,7 @@ pub fn run() -> Result<()> {
 			runner.run_node_until_exit(|config| async move {
 				if config.chain_spec.name() == "Development" {
 					println!("Running Development");
-					return service::dev::new_full(config).map_err(sc_cli::Error::Service);
+					return service::dev::new_full(config, cli.sealing).map_err(sc_cli::Error::Service);
 				}
 
 

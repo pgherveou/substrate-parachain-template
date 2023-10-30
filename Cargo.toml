@@ -83,13 +83,20 @@ substrate-wasm-builder = { version = "13.0.0" }
 substrate-build-script-utils = { version = "8.0.0" }
 try-runtime-cli = { version = "0.34.0" }
 
-# extra for running solo-chain
+# extra deps for running a solo node on top of a parachain
 pallet-grandpa = { version = "24.0.0", default-features = false }
 sc-consensus-grandpa = { version = "0.15.0", default-features = false }
 sp-consensus-grandpa = { version = "9.0.0", default-features = false }
 sp-genesis-builder = { version = "0.3.0", default-features = false }
 sp-storage = { version = "16.0.0", default-features = false }
 sc-consensus-aura = { version = "0.30.0", default-features = false }
+sc-consensus-manual-seal = { version = "0.31.0", default-features = false}
+
+# extra deps for setting up pallet-contracts
+pallet-contracts = { version = "23.0.0", default-features = false }
+pallet-contracts-primitives = { version = "27.0.0", default-features = false }
+pallet-insecure-randomness-collective-flip = { version = "12.0.0", default-features = false }
+pallet-assets = { version = "25.0.0", default-features = false }
 
 # Polkadot
 pallet-xcm = { version = "3.0.0", default-features = false }

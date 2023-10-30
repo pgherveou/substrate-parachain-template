@@ -1,5 +1,6 @@
 //! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
+use crate::cli::Sealing;
 use futures::FutureExt;
 use node_template_runtime::{self, opaque::Block, RuntimeApi};
 use sc_client_api::{Backend, BlockBackend};
@@ -44,6 +45,7 @@ const GRANDPA_JUSTIFICATION_PERIOD: u32 = 512;
 #[allow(clippy::type_complexity)]
 pub fn new_partial(
 	config: &Configuration,
+	_sealing: Sealing, // TODO: use this
 ) -> Result<
 	sc_service::PartialComponents<
 		FullClient,
@@ -145,7 +147,7 @@ pub fn new_partial(
 }
 
 /// Builds a new service for a full client.
-pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
+pub fn new_full(config: Configuration, sealing: Sealing) -> Result<TaskManager, ServiceError> {
 	let sc_service::PartialComponents {
 		client,
 		backend,
@@ -155,7 +157,7 @@ pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
 		select_chain,
 		transaction_pool,
 		other: (block_import, grandpa_link, mut telemetry),
-	} = new_partial(&config)?;
+	} = new_partial(&config, sealing)?;
 
 	let mut net_config = sc_network::config::FullNetworkConfiguration::new(&config.network);
 
@@ -335,4 +337,3 @@ pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
 	network_starter.start_network();
 	Ok(task_manager)
 }
-

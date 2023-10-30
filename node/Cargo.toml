@@ -58,6 +58,7 @@ try-runtime-cli = { workspace = true, optional = true }
 sp-consensus-grandpa = { workspace = true }
 sc-consensus-grandpa = { workspace = true }
 sc-consensus-aura = { workspace = true }
+sc-consensus-manual-seal = { workspace = true }
 
 # Polkadot
 polkadot-cli = { workspace = true }
