@@ -1,9 +1,3 @@
-# Requirements
-# - Build `polkadot`, `polkadot-execute-worker` and `polkadot-prepare-worker` from `polkadot-sdk` and put same in your path
-# - Build yerba-parachain in release mode as we reference "./target/release/yerba-parachain" in this config
-# - Install zombienet from https://github.com/paritytech/zombienet/releases
-# - Run with zombienet spawn --provider native zombienet.toml
-
 [settings]
 timeout = 1000
 
@@ -14,7 +8,6 @@ default_command = "polkadot"
   [[relaychain.nodes]]
   name = "alice"
   validator = true
-  ws_port = 9900
   extra_args = [ "-lparachain=debug" ]
 
   [[relaychain.nodes]]
@@ -29,12 +22,10 @@ chain = "contracts-parachain-local"
   [[parachains.collators]]
   name = "collator01"
   command = "./target/release/parachain-contracts-node"
-  ws_port = 9910
   args = ["--log=debug"]
 
   [[parachains.collators]]
   name = "collator02"
   command = "./target/release/parachain-contracts-node"
-  ws_port = 9911
   args = ["--log=debug"]
 

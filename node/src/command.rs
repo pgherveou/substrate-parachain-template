@@ -17,7 +17,6 @@ use sp_runtime::traits::AccountIdConversion;
 use std::net::SocketAddr;
 
 fn load_spec(id: &str) -> std::result::Result<Box<dyn sc_chain_spec::ChainSpec>, String> {
-	println!("Loading spec: {}", id);
 	Ok(match id {
 		"" | "dev" => Box::new(chain_spec::dev::development_config().unwrap()),
 		"local" => Box::new(chain_spec::dev::local_testnet_config()?),
