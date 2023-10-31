@@ -19,7 +19,7 @@ members = [
 [workspace.dependencies]
 clap = { version = "4.4.6", features = ["derive"] }
 codec = { package = "parity-scale-codec", version = "3.6.5", default-features = false, features = ["derive"] }
-futures = "0.3.28"
+futures = "0.3.29"
 hex-literal = { version = "0.4.1"}
 jsonrpsee = { version = "0.16.2", features = ["server"] }
 log = { version = "0.4.20", default-features = false }
