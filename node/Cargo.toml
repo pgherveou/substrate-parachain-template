@@ -19,7 +19,7 @@ futures = { workspace = true }
 
 # Local
 contracts-parachain-runtime = { path = "../parachain-runtime" }
-contracts-node-runtime = { path = "../node-runtime" }
+contracts-node-runtime = { path = "../runtime" }
 
 # Substrate
 frame-benchmarking = { workspace = true }

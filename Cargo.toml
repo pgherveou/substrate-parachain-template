@@ -12,8 +12,8 @@ panic = "unwind"
 resolver = "2"
 members = [
 	"node",
+	"runtime",
 	"parachain-runtime",
-	"node-runtime",
 ]
 
 [workspace.dependencies]
