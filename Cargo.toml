@@ -118,7 +118,7 @@ cumulus-client-consensus-common = { version = "0.3.0" }
 cumulus-client-service = { version = "0.3.0" }
 cumulus-pallet-aura-ext = { version = "0.3.0", default-features = false }
 cumulus-pallet-dmp-queue = { version = "0.3.0", default-features = false }
-cumulus-pallet-parachain-system = { version = "0.3.0", default-features = false, features = ["parameterized-consensus-hook",] }
+cumulus-pallet-parachain-system = { version = "0.3.1", default-features = false, features = ["parameterized-consensus-hook",] }
 cumulus-pallet-session-benchmarking = {version = "5.0.0", default-features = false }
 cumulus-pallet-xcm = { version = "0.3.0", default-features = false }
 cumulus-pallet-xcmp-queue = { version = "0.3.0", default-features = false }
