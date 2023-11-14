@@ -1973,9 +1973,9 @@ dependencies = [
 
 [[package]]
 name = "cumulus-pallet-parachain-system"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8848c0ce4e55777b621703ef62224d5b8e2c250ccc03fb34c5372d995b86fa16"
+checksum = "ec91058e4836558b2857945a20dfb636384fd1a9e06af8a0ea177bfd60fa3dd7"
 dependencies = [
  "bytes",
  "cumulus-pallet-parachain-system-proc-macro",
@@ -2004,9 +2004,9 @@ dependencies = [
 
 [[package]]
 name = "cumulus-pallet-parachain-system-proc-macro"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e1235a0c8b242349a41d84c07774e17acf942e9fee383dda31c021ccaea9eedb"
+checksum = "1d3db1e9f06164609e2cc98d4e7c1e8f3843e1a8f1a5b2a0ae14dcc77e13deff"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
