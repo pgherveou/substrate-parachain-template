@@ -25,7 +25,7 @@ jsonrpsee = { version = "0.16.2", features = ["server"] }
 log = { version = "0.4.20", default-features = false }
 serde = { version = "1.0.189", features = ["derive"] }
 scale-info = { version = "2.9.0", default-features = false, features = ["derive"] }
-smallvec = "1.11.1"
+smallvec = "1.13.0"
 color-print = "0.3.5"
 
 # Substrate
